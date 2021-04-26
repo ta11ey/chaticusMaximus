@@ -77,6 +77,12 @@
         "LogGroupName": "/aws/lambda/serverless-chat-dev-ping"
       }
     },
+    "InsertTestLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/serverless-chat-dev-insertTest"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -133,6 +139,21 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-chat-dev*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:DescribeTable",
+                    "dynamodb:PutItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem",
+                    "dynamodb:Scan",
+                    "dynamodb:Query"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:*:*"
                 }
               ]
             }
@@ -161,7 +182,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-chat/dev/1619399385593-2021-04-26T01:09:45.593Z/serverless-chat.zip"
+          "S3Key": "serverless/serverless-chat/dev/1619405997222-2021-04-26T02:59:57.222Z/serverless-chat.zip"
         },
         "Handler": "handler.ping",
         "Runtime": "python3.8",
@@ -179,14 +200,49 @@
         "PingLogGroup"
       ]
     },
-    "PingLambdaVersionLuSFnvyZGAOaYj8HpWFRB2UdfAbVe5jGCdpYA0rnm4": {
+    "InsertTestLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/serverless-chat/dev/1619405997222-2021-04-26T02:59:57.222Z/serverless-chat.zip"
+        },
+        "Handler": "handler.insertTest",
+        "Runtime": "python3.8",
+        "FunctionName": "serverless-chat-dev-insertTest",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "InsertTestLogGroup"
+      ]
+    },
+    "PingLambdaVersion1JKnofp4YmWlUZO6pD0Fusd8rYeLdHADQyYgMH70aY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PingLambdaFunction"
         },
-        "CodeSha256": "7KEmp9bMazJXO3Bq4/6EMhF6/fEXzd9JJjug2iBsEzU="
+        "CodeSha256": "zvrhubAAxvWXpJ4Pcp0nz9e14eJ87SNdWB7++8mLWek="
+      }
+    },
+    "InsertTestLambdaVersion4UOoP9i9X947G9rMmgXIc6xO4cER2MfkzzDssDLBg": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "InsertTestLambdaFunction"
+        },
+        "CodeSha256": "zvrhubAAxvWXpJ4Pcp0nz9e14eJ87SNdWB7++8mLWek="
       }
     },
     "ApiGatewayRestApi": {
@@ -211,6 +267,21 @@
           ]
         },
         "PathPart": "ping",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceInserttest": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "insertTest",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -259,7 +330,50 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1619399384403": {
+    "ApiGatewayMethodInserttestGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceInserttest"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "InsertTestLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1619405995684": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -268,7 +382,8 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodPingGet"
+        "ApiGatewayMethodPingGet",
+        "ApiGatewayMethodInserttestGet"
       ]
     },
     "PingLambdaPermissionApiGateway": {
@@ -277,6 +392,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "PingLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "InsertTestLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "InsertTestLambdaFunction",
             "Arn"
           ]
         },
@@ -321,10 +473,19 @@
     "PingLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PingLambdaVersionLuSFnvyZGAOaYj8HpWFRB2UdfAbVe5jGCdpYA0rnm4"
+        "Ref": "PingLambdaVersion1JKnofp4YmWlUZO6pD0Fusd8rYeLdHADQyYgMH70aY"
       },
       "Export": {
         "Name": "sls-serverless-chat-dev-PingLambdaFunctionQualifiedArn"
+      }
+    },
+    "InsertTestLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "InsertTestLambdaVersion4UOoP9i9X947G9rMmgXIc6xO4cER2MfkzzDssDLBg"
+      },
+      "Export": {
+        "Name": "sls-serverless-chat-dev-InsertTestLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {

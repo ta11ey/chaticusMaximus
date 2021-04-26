@@ -10,6 +10,7 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
+        - "dynamodb:DescribeTable"
         - "dynamodb:PutItem"
         - "dynamodb:GetItem"
         - "dynamodb:UpdateItem"
@@ -35,4 +36,10 @@ functions:
     events:
       - http:
           path: ping
+          method: get
+  insertTest:
+    handler: handler.insertTest
+    events:
+      - http:
+          path: insertTest
           method: get
