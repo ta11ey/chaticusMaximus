@@ -1,0 +1,38 @@
+
+service: serverless-chat
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:BatchGetItem"
+        - "dynamodb:BatchWriteItem"
+        - "dynamodb:Scan"
+        - "dynamodb:Query"
+      Resource:
+        - "arn:aws:dynamodb:us-east-1:*:*"
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+    pythonRequirements:
+        dockerizePip: true
+        noDeploy: []
+
+functions:
+  ping:
+    handler: handler.ping
+    events:
+      - http:
+          path: ping
+          method: get

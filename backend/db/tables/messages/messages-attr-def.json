@@ -1,0 +1,10 @@
+[
+  {
+    "AttributeName": "Room",
+    "AttributeType": "S"
+  },
+ {
+    "AttributeName": "Index",
+    "AttributeType": "N"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "AttributeName": "Room",
+    "KeyType": "HASH"
+  },
+  {
+    "AttributeName": "Index",
+    "KeyType": "RANGE"
+  }
+]

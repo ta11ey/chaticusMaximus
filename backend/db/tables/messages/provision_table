@@ -1,0 +1,8 @@
+#!/bin/sh
+
+aws dynamodb create-table \
+    --table-name serverless-chat__Messages \
+    --attribute-definitions file://messages-attr-def.json \
+    --key-schema file://messages-key-schema.json \
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+
