@@ -1,0 +1,2 @@
+aws dynamodb delete-table --table-name serverless-chat__Messages
+aws dynamodb delete-table --table-name serverless-chat__Connections

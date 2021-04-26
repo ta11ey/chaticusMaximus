@@ -182,7 +182,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-chat/dev/1619405997222-2021-04-26T02:59:57.222Z/serverless-chat.zip"
+          "S3Key": "serverless/serverless-chat/dev/1619448026537-2021-04-26T14:40:26.537Z/serverless-chat.zip"
         },
         "Handler": "handler.ping",
         "Runtime": "python3.8",
@@ -207,7 +207,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-chat/dev/1619405997222-2021-04-26T02:59:57.222Z/serverless-chat.zip"
+          "S3Key": "serverless/serverless-chat/dev/1619448026537-2021-04-26T14:40:26.537Z/serverless-chat.zip"
         },
         "Handler": "handler.insertTest",
         "Runtime": "python3.8",
@@ -373,7 +373,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1619405995684": {
+    "ApiGatewayDeployment1619448024599": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -457,6 +457,58 @@
               "/*/*"
             ]
           ]
+        }
+      }
+    },
+    "cnxsTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "serverless-chat__Connections",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "ConnectionID",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "ConnectionID",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }
+    },
+    "msgTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "serverless-chat__Messages",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "Room",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "Index",
+            "AttributeType": "N"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "Room",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "Index",
+            "KeyType": "RANGE"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
         }
       }
     }
