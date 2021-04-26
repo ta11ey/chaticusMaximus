@@ -8,6 +8,8 @@
       "name": "aws",
       "runtime": "python3.8",
       "lambdaHashingVersion": "20201221",
+      "websocketsApiName": "serverless-chat-api",
+      "websocketsApiRouteSelectionExpression": "$request.body.action",
       "iamRoleStatements": [
         {
           "Effect": "Allow",
@@ -20,9 +22,13 @@
             "dynamodb:BatchGetItem",
             "dynamodb:BatchWriteItem",
             "dynamodb:Scan",
-            "dynamodb:Query"
+            "dynamodb:Query",
+            "execute-api:ManageConnections"
           ],
-          "Resource": "arn:aws:dynamodb:us-east-1:*:*"
+          "Resource": [
+            "arn:aws:dynamodb:us-east-1:*:*",
+            "arn:aws:execute-api:*:*:**/@connections/*"
+          ]
         }
       ],
       "stage": "dev",
@@ -114,6 +120,12 @@
               "LogGroupName": "/aws/lambda/serverless-chat-dev-insertTest"
             }
           },
+          "ConnectionUnderscoremanagerLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/serverless-chat-dev-connection_manager"
+            }
+          },
           "IamRoleLambdaExecution": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -173,6 +185,17 @@
                       },
                       {
                         "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "execute-api:ManageConnections"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:execute-api:*:*:*/@connections/*"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -201,7 +224,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619448026537-2021-04-26T14:40:26.537Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619471078181-2021-04-26T21:04:38.181Z/serverless-chat.zip"
               },
               "Handler": "handler.ping",
               "Runtime": "python3.8",
@@ -226,7 +249,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619448026537-2021-04-26T14:40:26.537Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619471078181-2021-04-26T21:04:38.181Z/serverless-chat.zip"
               },
               "Handler": "handler.insertTest",
               "Runtime": "python3.8",
@@ -244,24 +267,59 @@
               "InsertTestLogGroup"
             ]
           },
-          "PingLambdaVersion1JKnofp4YmWlUZO6pD0Fusd8rYeLdHADQyYgMH70aY": {
+          "ConnectionUnderscoremanagerLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/serverless-chat/dev/1619471078181-2021-04-26T21:04:38.181Z/serverless-chat.zip"
+              },
+              "Handler": "handler.connection_manager",
+              "Runtime": "python3.8",
+              "FunctionName": "serverless-chat-dev-connection_manager",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "ConnectionUnderscoremanagerLogGroup"
+            ]
+          },
+          "PingLambdaVersionU2edNWQ1eGHuh50cHUS3qub42K7Z4K0gQ9Uy43YS6Y": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PingLambdaFunction"
               },
-              "CodeSha256": "zvrhubAAxvWXpJ4Pcp0nz9e14eJ87SNdWB7++8mLWek="
+              "CodeSha256": "5Fl0H/fCsnka/2bP58A7Sk2ZX6YvlLTwHoPKIrvNjEA="
             }
           },
-          "InsertTestLambdaVersion4UOoP9i9X947G9rMmgXIc6xO4cER2MfkzzDssDLBg": {
+          "InsertTestLambdaVersionNY7pVkGj62JZfWJwrqTNJEbFb4upe4rfg7d5oNmkPA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InsertTestLambdaFunction"
               },
-              "CodeSha256": "zvrhubAAxvWXpJ4Pcp0nz9e14eJ87SNdWB7++8mLWek="
+              "CodeSha256": "5Fl0H/fCsnka/2bP58A7Sk2ZX6YvlLTwHoPKIrvNjEA="
+            }
+          },
+          "ConnectionUnderscoremanagerLambdaVersionKTIZNoKdW3hksTjF8JgJ9htoCHPb9nBrIpycwP82Y1s": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "ConnectionUnderscoremanagerLambdaFunction"
+              },
+              "CodeSha256": "5Fl0H/fCsnka/2bP58A7Sk2ZX6YvlLTwHoPKIrvNjEA="
             }
           },
           "ApiGatewayRestApi": {
@@ -392,7 +450,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1619448024599": {
+          "ApiGatewayDeployment1619471076622": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -479,6 +537,132 @@
               }
             }
           },
+          "WebsocketsApi": {
+            "Type": "AWS::ApiGatewayV2::Api",
+            "Properties": {
+              "Name": "serverless-chat-api",
+              "RouteSelectionExpression": "$request.body.action",
+              "Description": "Serverless Websockets",
+              "ProtocolType": "WEBSOCKET"
+            }
+          },
+          "ConnectionUnderscoremanagerWebsocketsIntegration": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "ConnectionUnderscoremanagerLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            }
+          },
+          "ConnectionUnderscoremanagerLambdaPermissionWebsockets": {
+            "Type": "AWS::Lambda::Permission",
+            "DependsOn": [
+              "WebsocketsApi",
+              "ConnectionUnderscoremanagerLambdaFunction"
+            ],
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "ConnectionUnderscoremanagerLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com"
+            }
+          },
+          "SconnectWebsocketsRoute": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "RouteKey": "$connect",
+              "AuthorizationType": "NONE",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "ConnectionUnderscoremanagerWebsocketsIntegration"
+                    }
+                  ]
+                ]
+              }
+            }
+          },
+          "SdisconnectWebsocketsRoute": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "RouteKey": "$disconnect",
+              "AuthorizationType": "NONE",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "ConnectionUnderscoremanagerWebsocketsIntegration"
+                    }
+                  ]
+                ]
+              }
+            }
+          },
+          "WebsocketsDeploymentStage": {
+            "Type": "AWS::ApiGatewayV2::Stage",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "StageName": "dev",
+              "Description": "Serverless Websockets",
+              "DeploymentId": {
+                "Ref": "WebsocketsDeploymentn81QrVBUFABjsOFhEAczanGe8qBhHAzlVsgAE8wI"
+              }
+            }
+          },
+          "WebsocketsDeploymentn81QrVBUFABjsOFhEAczanGe8qBhHAzlVsgAE8wI": {
+            "Type": "AWS::ApiGatewayV2::Deployment",
+            "DependsOn": [
+              "SconnectWebsocketsRoute",
+              "SdisconnectWebsocketsRoute"
+            ],
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "Description": "Serverless Websockets"
+            }
+          },
           "cnxsTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
@@ -544,7 +728,7 @@
           "PingLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PingLambdaVersion1JKnofp4YmWlUZO6pD0Fusd8rYeLdHADQyYgMH70aY"
+              "Ref": "PingLambdaVersionU2edNWQ1eGHuh50cHUS3qub42K7Z4K0gQ9Uy43YS6Y"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-PingLambdaFunctionQualifiedArn"
@@ -553,10 +737,19 @@
           "InsertTestLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InsertTestLambdaVersion4UOoP9i9X947G9rMmgXIc6xO4cER2MfkzzDssDLBg"
+              "Ref": "InsertTestLambdaVersionNY7pVkGj62JZfWJwrqTNJEbFb4upe4rfg7d5oNmkPA"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-InsertTestLambdaFunctionQualifiedArn"
+            }
+          },
+          "ConnectionUnderscoremanagerLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "ConnectionUnderscoremanagerLambdaVersionKTIZNoKdW3hksTjF8JgJ9htoCHPb9nBrIpycwP82Y1s"
+            },
+            "Export": {
+              "Name": "sls-serverless-chat-dev-ConnectionUnderscoremanagerLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -583,6 +776,32 @@
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-ServiceEndpoint"
+            }
+          },
+          "ServiceEndpointWebsocket": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "wss://",
+                  {
+                    "Ref": "WebsocketsApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-serverless-chat-dev-ServiceEndpointWebsocket"
             }
           }
         }
@@ -699,7 +918,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "PingLambdaVersion1JKnofp4YmWlUZO6pD0Fusd8rYeLdHADQyYgMH70aY"
+        "versionLogicalId": "PingLambdaVersionU2edNWQ1eGHuh50cHUS3qub42K7Z4K0gQ9Uy43YS6Y"
       },
       "insertTest": {
         "handler": "handler.insertTest",
@@ -718,7 +937,29 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "InsertTestLambdaVersion4UOoP9i9X947G9rMmgXIc6xO4cER2MfkzzDssDLBg"
+        "versionLogicalId": "InsertTestLambdaVersionNY7pVkGj62JZfWJwrqTNJEbFb4upe4rfg7d5oNmkPA"
+      },
+      "connection_manager": {
+        "handler": "handler.connection_manager",
+        "events": [
+          {
+            "websocket": {
+              "route": "$connect"
+            }
+          },
+          {
+            "websocket": {
+              "route": "$disconnect"
+            }
+          }
+        ],
+        "name": "serverless-chat-dev-connection_manager",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "ConnectionUnderscoremanagerLambdaVersionKTIZNoKdW3hksTjF8JgJ9htoCHPb9nBrIpycwP82Y1s"
       }
     },
     "resources": {
@@ -806,7 +1047,7 @@
     "artifact": "/Users/jacobtalley/Dev/Self/chaticusMaximus/backend/.serverless/serverless-chat.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-chat/dev/1619448026537-2021-04-26T14:40:26.537Z",
+    "artifactDirectoryName": "serverless/serverless-chat/dev/1619471078181-2021-04-26T21:04:38.181Z",
     "artifact": "serverless-chat.zip"
   }
 }

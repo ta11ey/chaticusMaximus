@@ -7,6 +7,8 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: 20201221
+  websocketsApiName: serverless-chat-api
+  websocketsApiRouteSelectionExpression: $request.body.action
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -19,8 +21,10 @@ provider:
         - "dynamodb:BatchWriteItem"
         - "dynamodb:Scan"
         - "dynamodb:Query"
+        - "execute-api:ManageConnections"
       Resource:
         - "arn:aws:dynamodb:us-east-1:*:*"
+        - "arn:aws:execute-api:*:*:**/@connections/*"
 
 plugins:
   - serverless-python-requirements
@@ -43,6 +47,13 @@ functions:
       - http:
           path: insertTest
           method: get
+  connection_manager:
+    handler: handler.connection_manager
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
 
 resources:
   Resources:
