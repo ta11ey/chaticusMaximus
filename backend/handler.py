@@ -23,6 +23,16 @@ def _get_response(status_code, body):
         body = json.dumps(body)
     return {"statusCode": status_code, "body": body}
 
+def _send_to_connection(connection_id, data, event):
+    gatewayapi = boto3.client(
+        "apigatewaymanagementapi",
+        endpoint_url = "https://" + event["requestContext"]["domainName"] +
+                "/" + event["requestContext"]["stage"])
+    return gatewayapi.post_to_connection(
+                ConnectionId=connection_id,
+                Data=json.dumps(data).encode('utf-8'))
+
+
 def ping(event, context):
     """
     Sanity check endpoint that echoes back 'PONG' to the sender.
@@ -90,3 +100,42 @@ def send_message(event, context):
                     .format(attribute))
             return _get_response(400, "'{}' not in message dict"\
                     .format(attribute))
+
+    table = dynamodb.Table(MSG_TABLE)
+
+    # Get the next message index
+    response = table.query(
+            KeyConditionExpression="Room = :room",
+            ExpressionAttributeValues={":room": "general"},
+            Limit=1, ScanIndexForward=False)
+    items = response.get("Items", [])
+    index = items[0]["Index"] + 1 if len(items) > 0 else 0
+
+    # add the new message to the database
+    timestamp = int(time.time())
+    username = body["username"]
+    content = body["content"]
+    table.put_item(
+        Item={
+            "Room": "general",
+            "Index": index,
+            "Timestamp": timestamp,
+            "Username": username,
+            "Content": content
+        })
+    
+    # get all current connections
+    table = dynamodb.Table(CNXS_TABLE)
+    response = table.scan(ProjectionExpression="ConnectionId")
+    items = response.get("Items", [])
+    connections = [x["ConnectionID"] for x in items if "ConnectionID" in x]
+
+    # Send the message data to all connections
+    message = {"username": username, "content": content}
+    logger.debug("Broadcasting message: {}".format(message))
+    data = {"messages": [message]}
+    for connectionID in connections:
+        _send_to_connection(connectionID, data, event)
+    return _get_response(200, "Message sent to all connections")
+
+

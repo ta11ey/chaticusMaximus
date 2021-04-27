@@ -54,6 +54,11 @@ functions:
           route: $connect
       - websocket:
           route: $disconnect
+  send_message:
+    handler: handler.send_message
+    events:
+      - websocket:
+          route: sendMessage
 
 resources:
   Resources:
