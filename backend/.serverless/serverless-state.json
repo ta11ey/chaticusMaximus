@@ -242,7 +242,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z/serverless-chat.zip"
               },
               "Handler": "handler.ping",
               "Runtime": "python3.8",
@@ -267,7 +267,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z/serverless-chat.zip"
               },
               "Handler": "handler.insertTest",
               "Runtime": "python3.8",
@@ -292,7 +292,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z/serverless-chat.zip"
               },
               "Handler": "handler.connection_manager",
               "Runtime": "python3.8",
@@ -317,7 +317,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z/serverless-chat.zip"
               },
               "Handler": "handler.get_recent_messages",
               "Runtime": "python3.8",
@@ -342,7 +342,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z/serverless-chat.zip"
               },
               "Handler": "handler.send_message",
               "Runtime": "python3.8",
@@ -367,7 +367,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z/serverless-chat.zip"
               },
               "Handler": "handler.default_message",
               "Runtime": "python3.8",
@@ -385,64 +385,64 @@
               "DefaultMessageLogGroup"
             ]
           },
-          "PingLambdaVersionLkrcE6JthSOfBrbP5ujFvcjCPHwAuMXNfozjtHPDTWY": {
+          "PingLambdaVersionFyKHdEKqJS4cIOqGO9UGFVFXv569mQcDlmP39M9DSk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PingLambdaFunction"
               },
-              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+              "CodeSha256": "4XGfn9udIcvmKPYysc1wjIG6/mL+GgTtSTPBuAvPRzc="
             }
           },
-          "InsertTestLambdaVersion2ABqV6hskyzakiuxzrHF8siRIlctNdExpRK8NWwBo0": {
+          "InsertTestLambdaVersionn6SqTZUrKOlRWm6d2ocXmahUxMUHiwsPBmEclS06Zw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InsertTestLambdaFunction"
               },
-              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+              "CodeSha256": "4XGfn9udIcvmKPYysc1wjIG6/mL+GgTtSTPBuAvPRzc="
             }
           },
-          "ConnectionUnderscoremanagerLambdaVersionf7uVIJl4XNHUFwoGXiXNPdatGhJdfLwyz4ucJ1CMw": {
+          "ConnectionUnderscoremanagerLambdaVersiongkppUrACaDS67YftSzzJTCeXdXYFZnNQPk3BPiMKJAM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ConnectionUnderscoremanagerLambdaFunction"
               },
-              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+              "CodeSha256": "4XGfn9udIcvmKPYysc1wjIG6/mL+GgTtSTPBuAvPRzc="
             }
           },
-          "GetRecentMessagesLambdaVersiony0FkPq084wOShlu9VUj9uSiG70sGq4RZHem0yas": {
+          "GetRecentMessagesLambdaVersionBtzwTY9l29KabeDiTltUYTvkcaAXAo1If5qHnAVrr0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetRecentMessagesLambdaFunction"
               },
-              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+              "CodeSha256": "4XGfn9udIcvmKPYysc1wjIG6/mL+GgTtSTPBuAvPRzc="
             }
           },
-          "SendUnderscoremessageLambdaVersionMmMOzNhqe2OAUUy2by8LCZCQUuFBBx5CQGRP11oH8tQ": {
+          "SendUnderscoremessageLambdaVersionW5xvVqbvaeVBIJ3iXBjBjzYb1EFNF8EVMTzAHLF3YQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SendUnderscoremessageLambdaFunction"
               },
-              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+              "CodeSha256": "4XGfn9udIcvmKPYysc1wjIG6/mL+GgTtSTPBuAvPRzc="
             }
           },
-          "DefaultMessageLambdaVersionSu9LAAzywm7OHMdY0HNSvZ28vzc98N7hIp0ZuNOg": {
+          "DefaultMessageLambdaVersion6nSkxvxqDS4InCC3DMxUzjZxQcdvl6LHVpCqdEsAx8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DefaultMessageLambdaFunction"
               },
-              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+              "CodeSha256": "4XGfn9udIcvmKPYysc1wjIG6/mL+GgTtSTPBuAvPRzc="
             }
           },
           "ApiGatewayRestApi": {
@@ -573,7 +573,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1619485986669": {
+          "ApiGatewayDeployment1619534303151": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1064,7 +1064,7 @@
           "PingLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PingLambdaVersionLkrcE6JthSOfBrbP5ujFvcjCPHwAuMXNfozjtHPDTWY"
+              "Ref": "PingLambdaVersionFyKHdEKqJS4cIOqGO9UGFVFXv569mQcDlmP39M9DSk"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-PingLambdaFunctionQualifiedArn"
@@ -1073,7 +1073,7 @@
           "InsertTestLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InsertTestLambdaVersion2ABqV6hskyzakiuxzrHF8siRIlctNdExpRK8NWwBo0"
+              "Ref": "InsertTestLambdaVersionn6SqTZUrKOlRWm6d2ocXmahUxMUHiwsPBmEclS06Zw"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-InsertTestLambdaFunctionQualifiedArn"
@@ -1082,7 +1082,7 @@
           "ConnectionUnderscoremanagerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ConnectionUnderscoremanagerLambdaVersionf7uVIJl4XNHUFwoGXiXNPdatGhJdfLwyz4ucJ1CMw"
+              "Ref": "ConnectionUnderscoremanagerLambdaVersiongkppUrACaDS67YftSzzJTCeXdXYFZnNQPk3BPiMKJAM"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-ConnectionUnderscoremanagerLambdaFunctionQualifiedArn"
@@ -1091,7 +1091,7 @@
           "GetRecentMessagesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetRecentMessagesLambdaVersiony0FkPq084wOShlu9VUj9uSiG70sGq4RZHem0yas"
+              "Ref": "GetRecentMessagesLambdaVersionBtzwTY9l29KabeDiTltUYTvkcaAXAo1If5qHnAVrr0"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-GetRecentMessagesLambdaFunctionQualifiedArn"
@@ -1100,7 +1100,7 @@
           "SendUnderscoremessageLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SendUnderscoremessageLambdaVersionMmMOzNhqe2OAUUy2by8LCZCQUuFBBx5CQGRP11oH8tQ"
+              "Ref": "SendUnderscoremessageLambdaVersionW5xvVqbvaeVBIJ3iXBjBjzYb1EFNF8EVMTzAHLF3YQ"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-SendUnderscoremessageLambdaFunctionQualifiedArn"
@@ -1109,7 +1109,7 @@
           "DefaultMessageLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DefaultMessageLambdaVersionSu9LAAzywm7OHMdY0HNSvZ28vzc98N7hIp0ZuNOg"
+              "Ref": "DefaultMessageLambdaVersion6nSkxvxqDS4InCC3DMxUzjZxQcdvl6LHVpCqdEsAx8"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-DefaultMessageLambdaFunctionQualifiedArn"
@@ -1281,7 +1281,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "PingLambdaVersionLkrcE6JthSOfBrbP5ujFvcjCPHwAuMXNfozjtHPDTWY"
+        "versionLogicalId": "PingLambdaVersionFyKHdEKqJS4cIOqGO9UGFVFXv569mQcDlmP39M9DSk"
       },
       "insertTest": {
         "handler": "handler.insertTest",
@@ -1300,7 +1300,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "InsertTestLambdaVersion2ABqV6hskyzakiuxzrHF8siRIlctNdExpRK8NWwBo0"
+        "versionLogicalId": "InsertTestLambdaVersionn6SqTZUrKOlRWm6d2ocXmahUxMUHiwsPBmEclS06Zw"
       },
       "connection_manager": {
         "handler": "handler.connection_manager",
@@ -1322,7 +1322,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "ConnectionUnderscoremanagerLambdaVersionf7uVIJl4XNHUFwoGXiXNPdatGhJdfLwyz4ucJ1CMw"
+        "versionLogicalId": "ConnectionUnderscoremanagerLambdaVersiongkppUrACaDS67YftSzzJTCeXdXYFZnNQPk3BPiMKJAM"
       },
       "getRecentMessages": {
         "handler": "handler.get_recent_messages",
@@ -1339,7 +1339,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "GetRecentMessagesLambdaVersiony0FkPq084wOShlu9VUj9uSiG70sGq4RZHem0yas"
+        "versionLogicalId": "GetRecentMessagesLambdaVersionBtzwTY9l29KabeDiTltUYTvkcaAXAo1If5qHnAVrr0"
       },
       "send_message": {
         "handler": "handler.send_message",
@@ -1356,7 +1356,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "SendUnderscoremessageLambdaVersionMmMOzNhqe2OAUUy2by8LCZCQUuFBBx5CQGRP11oH8tQ"
+        "versionLogicalId": "SendUnderscoremessageLambdaVersionW5xvVqbvaeVBIJ3iXBjBjzYb1EFNF8EVMTzAHLF3YQ"
       },
       "defaultMessage": {
         "handler": "handler.default_message",
@@ -1373,7 +1373,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "DefaultMessageLambdaVersionSu9LAAzywm7OHMdY0HNSvZ28vzc98N7hIp0ZuNOg"
+        "versionLogicalId": "DefaultMessageLambdaVersion6nSkxvxqDS4InCC3DMxUzjZxQcdvl6LHVpCqdEsAx8"
       }
     },
     "resources": {
@@ -1461,7 +1461,7 @@
     "artifact": "/Users/jacobtalley/Dev/Self/chaticusMaximus/backend/.serverless/serverless-chat.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z",
+    "artifactDirectoryName": "serverless/serverless-chat/dev/1619534305275-2021-04-27T14:38:25.275Z",
     "artifact": "serverless-chat.zip"
   }
 }
