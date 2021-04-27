@@ -123,7 +123,7 @@ def send_message(event, context):
             "Username": username,
             "Content": content
         })
-    
+
     # get all current connections
     table = dynamodb.Table(CNXS_TABLE)
     response = table.scan(ProjectionExpression="ConnectionId")
@@ -138,4 +138,35 @@ def send_message(event, context):
         _send_to_connection(connectionID, data, event)
     return _get_response(200, "Message sent to all connections")
 
+def get_recent_messages(event, context):
+    """
+    Return the 10 most recent chat messages.
+    """
+    logger.info("Retrieving most recent messages.")
+    connectionID = event["requestContext"].get("connectionId")
+
+    # Get the 10 most recent chat messages
+    table = dynamodb.Table("serverless-chat_Messages")
+    response = table.query(KeyConditionExpression="Room = :room",
+            ExpressionAttributeValues={":room": "general"},
+            Limit=10, ScanIndexForward=False)
+    items = response.get("Items", [])
+
+    # Extract the relevant data and order chronologically
+    messages = [{"username": x["Username"], "content": x["Content"]}
+            for x in items]
+    messages.reverse()
+
+    # Send them to the client who asked for it
+    data = {"messages": messages}
+    _send_to_connection(connectionID, data, event)
+
+    return _get_response(200, "Sent recent messages.")
+
+def default_message(event, context):
+    """
+    Send back error when unrecognized WebSocket action is received.
+    """
+    logger.info("Unrecognized WebSocket action received.")
+    return _get_response(400, "Unrecognized WebSocket action.")
 

@@ -54,11 +54,21 @@ functions:
           route: $connect
       - websocket:
           route: $disconnect
+  getRecentMessages:
+    handler: handler.get_recent_messages
+    events:
+      - websocket:
+          route: getRecentMessages
   send_message:
     handler: handler.send_message
     events:
       - websocket:
           route: sendMessage
+  defaultMessage:
+    handler: handler.default_message
+    events:
+      - websocket:
+          route: $default
 
 resources:
   Resources:

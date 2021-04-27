@@ -126,10 +126,22 @@
               "LogGroupName": "/aws/lambda/serverless-chat-dev-connection_manager"
             }
           },
+          "GetRecentMessagesLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/serverless-chat-dev-getRecentMessages"
+            }
+          },
           "SendUnderscoremessageLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
               "LogGroupName": "/aws/lambda/serverless-chat-dev-send_message"
+            }
+          },
+          "DefaultMessageLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/serverless-chat-dev-defaultMessage"
             }
           },
           "IamRoleLambdaExecution": {
@@ -230,7 +242,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485024333-2021-04-27T00:57:04.333Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
               },
               "Handler": "handler.ping",
               "Runtime": "python3.8",
@@ -255,7 +267,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485024333-2021-04-27T00:57:04.333Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
               },
               "Handler": "handler.insertTest",
               "Runtime": "python3.8",
@@ -280,7 +292,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485024333-2021-04-27T00:57:04.333Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
               },
               "Handler": "handler.connection_manager",
               "Runtime": "python3.8",
@@ -298,6 +310,31 @@
               "ConnectionUnderscoremanagerLogGroup"
             ]
           },
+          "GetRecentMessagesLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+              },
+              "Handler": "handler.get_recent_messages",
+              "Runtime": "python3.8",
+              "FunctionName": "serverless-chat-dev-getRecentMessages",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetRecentMessagesLogGroup"
+            ]
+          },
           "SendUnderscoremessageLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -305,7 +342,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-chat/dev/1619485024333-2021-04-27T00:57:04.333Z/serverless-chat.zip"
+                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
               },
               "Handler": "handler.send_message",
               "Runtime": "python3.8",
@@ -323,44 +360,89 @@
               "SendUnderscoremessageLogGroup"
             ]
           },
-          "PingLambdaVersionEaWYO3kcc3wHajBsdFDPfAJGRXYXD5JZbsng43PWs": {
+          "DefaultMessageLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z/serverless-chat.zip"
+              },
+              "Handler": "handler.default_message",
+              "Runtime": "python3.8",
+              "FunctionName": "serverless-chat-dev-defaultMessage",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "DefaultMessageLogGroup"
+            ]
+          },
+          "PingLambdaVersionLkrcE6JthSOfBrbP5ujFvcjCPHwAuMXNfozjtHPDTWY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PingLambdaFunction"
               },
-              "CodeSha256": "f6RAArs7YLmR+5yfPzWuX0MInPVd1/ZNc5Fx5pQo7js="
+              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
             }
           },
-          "InsertTestLambdaVersionXpz51g6jCC52MZ5mviHvbKPDRWqUrQnKEs3S5Cam7g": {
+          "InsertTestLambdaVersion2ABqV6hskyzakiuxzrHF8siRIlctNdExpRK8NWwBo0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InsertTestLambdaFunction"
               },
-              "CodeSha256": "f6RAArs7YLmR+5yfPzWuX0MInPVd1/ZNc5Fx5pQo7js="
+              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
             }
           },
-          "ConnectionUnderscoremanagerLambdaVersionTbsznJWTlB12sRrz1qW5umBxYyjqMlxXBynO7cKi4qE": {
+          "ConnectionUnderscoremanagerLambdaVersionf7uVIJl4XNHUFwoGXiXNPdatGhJdfLwyz4ucJ1CMw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ConnectionUnderscoremanagerLambdaFunction"
               },
-              "CodeSha256": "f6RAArs7YLmR+5yfPzWuX0MInPVd1/ZNc5Fx5pQo7js="
+              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
             }
           },
-          "SendUnderscoremessageLambdaVersionlLV5xndP32aOtapgifMnMtu0PRrxXkrKyYzoG2u2nTU": {
+          "GetRecentMessagesLambdaVersiony0FkPq084wOShlu9VUj9uSiG70sGq4RZHem0yas": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetRecentMessagesLambdaFunction"
+              },
+              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+            }
+          },
+          "SendUnderscoremessageLambdaVersionMmMOzNhqe2OAUUy2by8LCZCQUuFBBx5CQGRP11oH8tQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SendUnderscoremessageLambdaFunction"
               },
-              "CodeSha256": "f6RAArs7YLmR+5yfPzWuX0MInPVd1/ZNc5Fx5pQo7js="
+              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
+            }
+          },
+          "DefaultMessageLambdaVersionSu9LAAzywm7OHMdY0HNSvZ28vzc98N7hIp0ZuNOg": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "DefaultMessageLambdaFunction"
+              },
+              "CodeSha256": "/0GSo+dpPoXGCsd6krd8XK2h/LuoiJ9qo2k6YZqVAEM="
             }
           },
           "ApiGatewayRestApi": {
@@ -491,7 +573,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1619485022273": {
+          "ApiGatewayDeployment1619485986669": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -619,6 +701,38 @@
               }
             }
           },
+          "GetRecentMessagesWebsocketsIntegration": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "GetRecentMessagesLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            }
+          },
           "SendUnderscoremessageWebsocketsIntegration": {
             "Type": "AWS::ApiGatewayV2::Integration",
             "Properties": {
@@ -651,6 +765,38 @@
               }
             }
           },
+          "DefaultMessageWebsocketsIntegration": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "DefaultMessageLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            }
+          },
           "ConnectionUnderscoremanagerLambdaPermissionWebsockets": {
             "Type": "AWS::Lambda::Permission",
             "DependsOn": [
@@ -668,6 +814,23 @@
               "Principal": "apigateway.amazonaws.com"
             }
           },
+          "GetRecentMessagesLambdaPermissionWebsockets": {
+            "Type": "AWS::Lambda::Permission",
+            "DependsOn": [
+              "WebsocketsApi",
+              "GetRecentMessagesLambdaFunction"
+            ],
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetRecentMessagesLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com"
+            }
+          },
           "SendUnderscoremessageLambdaPermissionWebsockets": {
             "Type": "AWS::Lambda::Permission",
             "DependsOn": [
@@ -678,6 +841,23 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "SendUnderscoremessageLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com"
+            }
+          },
+          "DefaultMessageLambdaPermissionWebsockets": {
+            "Type": "AWS::Lambda::Permission",
+            "DependsOn": [
+              "WebsocketsApi",
+              "DefaultMessageLambdaFunction"
+            ],
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "DefaultMessageLambdaFunction",
                   "Arn"
                 ]
               },
@@ -727,6 +907,27 @@
               }
             }
           },
+          "getRecentMessagesWebsocketsRoute": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "RouteKey": "getRecentMessages",
+              "AuthorizationType": "NONE",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "GetRecentMessagesWebsocketsIntegration"
+                    }
+                  ]
+                ]
+              }
+            }
+          },
           "sendMessageWebsocketsRoute": {
             "Type": "AWS::ApiGatewayV2::Route",
             "Properties": {
@@ -748,6 +949,27 @@
               }
             }
           },
+          "SdefaultWebsocketsRoute": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "WebsocketsApi"
+              },
+              "RouteKey": "$default",
+              "AuthorizationType": "NONE",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "DefaultMessageWebsocketsIntegration"
+                    }
+                  ]
+                ]
+              }
+            }
+          },
           "WebsocketsDeploymentStage": {
             "Type": "AWS::ApiGatewayV2::Stage",
             "Properties": {
@@ -757,16 +979,18 @@
               "StageName": "dev",
               "Description": "Serverless Websockets",
               "DeploymentId": {
-                "Ref": "WebsocketsDeploymentbAgUrdhRMUu0yQqC81QISSGN9Xe4PsbhWIFlPHnxFE"
+                "Ref": "WebsocketsDeploymentbLEgCvBOFvEkpM2dH3B12BLRlqxSqoFKYf2y5g3jM"
               }
             }
           },
-          "WebsocketsDeploymentbAgUrdhRMUu0yQqC81QISSGN9Xe4PsbhWIFlPHnxFE": {
+          "WebsocketsDeploymentbLEgCvBOFvEkpM2dH3B12BLRlqxSqoFKYf2y5g3jM": {
             "Type": "AWS::ApiGatewayV2::Deployment",
             "DependsOn": [
               "SconnectWebsocketsRoute",
               "SdisconnectWebsocketsRoute",
-              "sendMessageWebsocketsRoute"
+              "getRecentMessagesWebsocketsRoute",
+              "sendMessageWebsocketsRoute",
+              "SdefaultWebsocketsRoute"
             ],
             "Properties": {
               "ApiId": {
@@ -840,7 +1064,7 @@
           "PingLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PingLambdaVersionEaWYO3kcc3wHajBsdFDPfAJGRXYXD5JZbsng43PWs"
+              "Ref": "PingLambdaVersionLkrcE6JthSOfBrbP5ujFvcjCPHwAuMXNfozjtHPDTWY"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-PingLambdaFunctionQualifiedArn"
@@ -849,7 +1073,7 @@
           "InsertTestLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InsertTestLambdaVersionXpz51g6jCC52MZ5mviHvbKPDRWqUrQnKEs3S5Cam7g"
+              "Ref": "InsertTestLambdaVersion2ABqV6hskyzakiuxzrHF8siRIlctNdExpRK8NWwBo0"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-InsertTestLambdaFunctionQualifiedArn"
@@ -858,19 +1082,37 @@
           "ConnectionUnderscoremanagerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ConnectionUnderscoremanagerLambdaVersionTbsznJWTlB12sRrz1qW5umBxYyjqMlxXBynO7cKi4qE"
+              "Ref": "ConnectionUnderscoremanagerLambdaVersionf7uVIJl4XNHUFwoGXiXNPdatGhJdfLwyz4ucJ1CMw"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-ConnectionUnderscoremanagerLambdaFunctionQualifiedArn"
             }
           },
+          "GetRecentMessagesLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetRecentMessagesLambdaVersiony0FkPq084wOShlu9VUj9uSiG70sGq4RZHem0yas"
+            },
+            "Export": {
+              "Name": "sls-serverless-chat-dev-GetRecentMessagesLambdaFunctionQualifiedArn"
+            }
+          },
           "SendUnderscoremessageLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SendUnderscoremessageLambdaVersionlLV5xndP32aOtapgifMnMtu0PRrxXkrKyYzoG2u2nTU"
+              "Ref": "SendUnderscoremessageLambdaVersionMmMOzNhqe2OAUUy2by8LCZCQUuFBBx5CQGRP11oH8tQ"
             },
             "Export": {
               "Name": "sls-serverless-chat-dev-SendUnderscoremessageLambdaFunctionQualifiedArn"
+            }
+          },
+          "DefaultMessageLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "DefaultMessageLambdaVersionSu9LAAzywm7OHMdY0HNSvZ28vzc98N7hIp0ZuNOg"
+            },
+            "Export": {
+              "Name": "sls-serverless-chat-dev-DefaultMessageLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -1039,7 +1281,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "PingLambdaVersionEaWYO3kcc3wHajBsdFDPfAJGRXYXD5JZbsng43PWs"
+        "versionLogicalId": "PingLambdaVersionLkrcE6JthSOfBrbP5ujFvcjCPHwAuMXNfozjtHPDTWY"
       },
       "insertTest": {
         "handler": "handler.insertTest",
@@ -1058,7 +1300,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "InsertTestLambdaVersionXpz51g6jCC52MZ5mviHvbKPDRWqUrQnKEs3S5Cam7g"
+        "versionLogicalId": "InsertTestLambdaVersion2ABqV6hskyzakiuxzrHF8siRIlctNdExpRK8NWwBo0"
       },
       "connection_manager": {
         "handler": "handler.connection_manager",
@@ -1080,7 +1322,24 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "ConnectionUnderscoremanagerLambdaVersionTbsznJWTlB12sRrz1qW5umBxYyjqMlxXBynO7cKi4qE"
+        "versionLogicalId": "ConnectionUnderscoremanagerLambdaVersionf7uVIJl4XNHUFwoGXiXNPdatGhJdfLwyz4ucJ1CMw"
+      },
+      "getRecentMessages": {
+        "handler": "handler.get_recent_messages",
+        "events": [
+          {
+            "websocket": {
+              "route": "getRecentMessages"
+            }
+          }
+        ],
+        "name": "serverless-chat-dev-getRecentMessages",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "GetRecentMessagesLambdaVersiony0FkPq084wOShlu9VUj9uSiG70sGq4RZHem0yas"
       },
       "send_message": {
         "handler": "handler.send_message",
@@ -1097,7 +1356,24 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "SendUnderscoremessageLambdaVersionlLV5xndP32aOtapgifMnMtu0PRrxXkrKyYzoG2u2nTU"
+        "versionLogicalId": "SendUnderscoremessageLambdaVersionMmMOzNhqe2OAUUy2by8LCZCQUuFBBx5CQGRP11oH8tQ"
+      },
+      "defaultMessage": {
+        "handler": "handler.default_message",
+        "events": [
+          {
+            "websocket": {
+              "route": "$default"
+            }
+          }
+        ],
+        "name": "serverless-chat-dev-defaultMessage",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "DefaultMessageLambdaVersionSu9LAAzywm7OHMdY0HNSvZ28vzc98N7hIp0ZuNOg"
       }
     },
     "resources": {
@@ -1185,7 +1461,7 @@
     "artifact": "/Users/jacobtalley/Dev/Self/chaticusMaximus/backend/.serverless/serverless-chat.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-chat/dev/1619485024333-2021-04-27T00:57:04.333Z",
+    "artifactDirectoryName": "serverless/serverless-chat/dev/1619485988308-2021-04-27T01:13:08.308Z",
     "artifact": "serverless-chat.zip"
   }
 }
